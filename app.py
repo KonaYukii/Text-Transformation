@@ -6,16 +6,8 @@ def removeDuplicates(sampleList):
   returnList = list(setList)
   return returnList
 
-def addedTxt(userInput):
-  #adding txt to user input when saving file
-  if userInput == '':
-    userInput = 'result'
-  fixedInput = userInput.split(".")
-  finalFix = fixedInput[0] + ".txt"
-  return finalFix
-
 def uniqueLetters(wordList):
-  # removing words that do not have unique letters
+  # remove any word that does not have unique letters
   listOfWords = []
   for word in wordList:
     lowerWord = word.lower()
@@ -23,6 +15,14 @@ def uniqueLetters(wordList):
     if len(setWord) == len(word):
       listOfWords.append(word)
   return listOfWords
+
+def addedTxt(userInput):
+  #adding .txt to user input when saving file
+  if userInput == '':
+    userInput = 'result'
+  fixedInput = userInput.split(".")
+  finalFix = fixedInput[0] + ".txt"
+  return finalFix
 
 # obtain information from the textfile
 textList = []
@@ -36,15 +36,15 @@ newFile = importFile.read().splitlines()
 for index, word in enumerate(newFile):
   textList.append(word)
 
-# what you want to do with the file
+# asking user what they want to do with the file
 while True:
   operationInput = input("What do you want to do with the file? Below are the options. Please input a number.\n 1. Remove duplicates\n 2. Words with unique letters\n 3. Do nothing\n")
   try:
     if operationInput == "1":
-      result = removeDuplicates(textList) 
+      modifiedList = removeDuplicates(textList) 
       break
     elif operationInput == "2":
-      result = uniqueLetters(textList)
+      modifiedList = uniqueLetters(textList)
       break
     elif operationInput == "3":
       print("Nothing happened")
@@ -56,12 +56,12 @@ while True:
     print("System error. Please try again")
     sys.exit(1)
 
-# save the result into another text file
-userSave = input("What name do you want to save your file as?\n")
-fixedSavedFile = addedTxt(userSave)
+# saving the output into a new textfile
+saveInput = input("What name do you want to save your file as?\n")
+fixedSavedFile = addedTxt(saveInput)
 try:
   with open(fixedSavedFile, "w") as resultFile:
-    resultFile.write('\n'.join(result))
+    resultFile.write('\n'.join(modifiedList))
 except:
   print("Import failed. Please try again.")
   sys.exit(1)
